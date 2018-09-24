@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { type } from './actions';
+import { type } from './actions/auth';
 
 const authToken = (state = localStorage.getItem("authToken"), action) => {
   const actions = {
