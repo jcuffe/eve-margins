@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
-import { type } from './actions/auth';
+import { type } from './actions/dispatch';
 
-const authToken = (state = localStorage.getItem("authToken"), action) => {
+const savedToken = JSON.parse(localStorage.getItem("authToken"));
+const authToken = (state = savedToken, action) => {
   const actions = {
     [type.AUTHORIZE]: action.payload,
     [type.LOGOUT]: null
@@ -9,7 +10,7 @@ const authToken = (state = localStorage.getItem("authToken"), action) => {
   return actions[action.type] || state;
 };
 
-const character = (state = localStorage.getItem("character"), action) => {
+const character = (state = {}, action) => {
   const actions = {
     [type.SET_CHARACTER]: { ...state, ...action.payload },
     [type.LOGOUT]: {}
@@ -17,7 +18,25 @@ const character = (state = localStorage.getItem("character"), action) => {
   return actions[action.type] || state;
 }
 
+const savedSystems = JSON.parse(localStorage.getItem("systems")) || {};
+function systems(state = savedSystems, action) {
+  const actions = {
+    [type.SET_SYSTEMS]: action.payload
+  };
+  return actions[action.type] || state;
+}
+
+function input(state = "", action) {
+  console.log(action.type);
+  const actions = {
+    [type.SET_INPUT]: action.payload
+  };
+  return actions[action.type] || state;
+}
+
 export default combineReducers({
   authToken,
-  character
+  character,
+  systems,
+  input
 });
