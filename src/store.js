@@ -3,13 +3,18 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
 
 function persistState(store, keys) {
+  console.log(keys);
   let currentState;
+
+  function persist(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+  }
 
   function handleChange() {
     const nextState = store.getState();
     if (nextState !== currentState) {
       currentState = nextState;
-      keys.forEach(key => localStorage.setItem(key, nextState[key]));
+      keys.forEach(key => persist(key, nextState[key]));
     }
   }
 
