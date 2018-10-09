@@ -2,13 +2,15 @@ import axios from 'axios';
 import { setSystems, authHeaders, setStructures } from './dispatch';
 import { endpoints } from '../urls';
 
-export const fetchSystems = () => async (dispatch) => {
+export const fetchSystems = (ids) => async (dispatch) => {
   console.log("Fetching systems");
   try {
-    const systemIds = await getIds(endpoints.systems);
-    const systems = await namesFromIds(systemIds);
-    dispatch(setSystems(systems));
-    console.log("systems", systems);
+    const requests = ids.map(id => axios.get(endpoints.system(id)));
+    const data = (await Promise.all(requests))
+      .map(response => response.data)
+      .reduce((systems, current) => ({ [current.system_id]: current, ...systems }), {});
+    dispatch(setSystems(data));
+    console.log("systems", data);
   } catch (error) {
     console.log("Failed to fetch systems");
   }
@@ -21,24 +23,10 @@ export const fetchStructures = (ids, token) => async (dispatch) => {
     const requests = ids.map(id => axios.get(endpoints.structure(id), options));
     const data = (await Promise.all(requests))
       .map(response => response.data)
+      .reduce((structures, current) => ({ [current.solar_system_id]: current, ...structures }), {});
     dispatch(setStructures(data));
   } catch (error) {
     console.log("Failed to fetch structure info.");
     console.log(error);
   }
 };
-
-async function getIds(endpoint) {
-  const { data } = await axios.get(endpoint);
-  return data;
-}
-
-async function namesFromIds(ids) {
-  let systems = {};
-  for (let i = 0; i < ids.length; i += 1000) {
-    const slice = ids.slice(i, 1000 + i);
-    const { data } = await axios.post(endpoints.names, slice);
-    data.forEach(sys => systems[sys.id] = { name: sys.name, id: sys.id });
-  }
-  return systems;
-}
