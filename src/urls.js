@@ -10,12 +10,14 @@ const urls = {
 };
 
 const endpoints = {
-  regions: urls.api + "universe/regions/",
-  constellations: urls.api + "universe/constellations/",
-  systems: urls.api + "universe/systems/",
-  names: urls.api + "universe/names/?datasource=tranquility",
+  regions: urls.api + "universe/regions",
+  constellations: urls.api + "universe/constellations",
+  systems: urls.api + "universe/systems",
+  structures: urls.api + "universe/structures",
+  names: urls.api + "universe/names",
   region: (id) => urls.api + `universe/regions/${id}`,
   constellation: (id) => urls.api + `universe/constellations/${id}`,
+  structure: (id) => urls.api + `universe/structures/${id}`,
   system: (id) => urls.api + `universe/systems/${id}`
 };
 
