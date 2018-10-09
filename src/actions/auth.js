@@ -1,15 +1,13 @@
 import axios from 'axios';
-import { setToken, setCharacter } from './dispatch';
+import { setToken, setCharacter, authHeaders } from './dispatch';
 import { urls } from '../urls';
 
 export const verifyToken = (token) => async (dispatch) => {
   try {
     console.log('preflight', token);
-      const { data: { CharacterID: id } } = await axios.get(urls.tokenVerification, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+    const { data } = await axios.get(urls.tokenVerification, authHeaders(token));
     dispatch(setToken(token));
-    dispatch(setCharacter({ id }));
+    dispatch(setCharacter({ id: data.CharacterID }));
   } catch (error) {
     console.log(error);
   }
