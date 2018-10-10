@@ -2,10 +2,9 @@ import { combineReducers } from 'redux';
 import { type } from '../actions/dispatch';
 import { systemIds } from '../seeds';
 
-function details(state = [], action) {
+function details(state = {}, action) {
   const actions = {
     [type.SET_SYSTEMS]: action.payload,
-    [type.ADD_SYSTEM]: [action.payload, ...state]
   };
   return actions[action.type] || state;
 }

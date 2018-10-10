@@ -19,7 +19,6 @@ const Form = () => {
 };
 
 const Structures = ({ structures, token, fetchStructures }) => {
-  console.log("structures", structures);
   return (
     <div>
       <button onClick={() => fetchStructures(structures.ids, token)}>Fetch Structures</button>
