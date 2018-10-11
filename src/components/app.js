@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import LoginButton from './auth/loginButton';
 import RedirectHandler from './auth/redirectHandler';
+import Colonies from './colonies';
 import Structures from './structures';
 import Systems from './systems';
 
@@ -15,6 +16,7 @@ function app({ character, token }) {
       <p>Character ID: {character.id}</p>
       <Structures />
       <Systems />
+      <Colonies />
       <Route path="/authorization-redirect" component={RedirectHandler} />
     </div>
   );

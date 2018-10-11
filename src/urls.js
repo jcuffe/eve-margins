@@ -15,6 +15,8 @@ const endpoints = {
   regions: urls.api + "universe/regions",
   systems: urls.api + "universe/systems",
   structures: urls.api + "universe/structures",
+  colonies: (id) => urls.api + `characters/${id}/planets`,
+  colony: (charId) => (planetId) => urls.api + `characters/${charId}/planets/${planetId}`,
   constellation: (id) => urls.api + `universe/constellations/${id}`,
   orders: (id) => urls.api + `markets/${id}/orders`,
   region: (id) => urls.api + `universe/regions/${id}`,

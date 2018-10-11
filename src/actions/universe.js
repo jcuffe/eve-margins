@@ -1,14 +1,5 @@
-import axios from 'axios';
-import { setSystems, authHeaders, setStructures, setConstellations, failed, fetching } from './dispatch';
+import { setSystems, authHeaders, setStructures, setConstellations, failed, fetching, fetchData } from './dispatch';
 import { endpoints } from '../urls';
-
-const fetchData = async (ids, endpoint, options = {}) => {
-    const requests = ids.map(id => axios.get(endpoint(id), options));
-    const data = (await Promise.all(requests))
-      .map(response => response.data)
-      .reduce((dictionary, element, i) => ({ ...dictionary, [ids[i]]: element }), {});
-    return data;
-};
 
 export const fetchSystems = (ids) => async (dispatch) => {
     dispatch(fetching("systems"));

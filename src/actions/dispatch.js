@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const type = {
   ADD_CONSTELLATION: 'add constellation',
   ADD_STRUCTURE: 'add structure',
@@ -6,16 +8,11 @@ export const type = {
   FETCHING: 'fetching',
   LOGOUT: 'logout',
   SET_CHARACTER: 'set char',
+  SET_COLONIES: 'set colonies',
   SET_CONSTELLATIONS: 'set constellations',
   SET_STRUCTURES: 'set structures',
   SET_SYSTEMS: 'set systems',
 };
-
-export const authHeaders = (token) => ({
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-});
 
 export const failed = (error) => ({
   type: type.FAILED,
@@ -52,6 +49,11 @@ export const addStructure = (structure) => ({
   payload: structure
 });
 
+export const setColonies = (colonies) => ({
+  type: type.SET_COLONIES,
+  payload: colonies
+});
+
 export const setConstellations = (constellations) => ({
   type: type.SET_CONSTELLATIONS,
   payload: constellations
@@ -66,3 +68,21 @@ export const setInput = (value) => ({
   type: type.SET_INPUT,
   payload: value
 });
+
+//
+// Utility functions
+//
+
+export const authHeaders = (token) => ({
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
+
+export const fetchData = async (ids, endpoint, options = {}) => {
+    const requests = ids.map(id => axios.get(endpoint(id), options));
+    const data = (await Promise.all(requests))
+      .map(response => response.data)
+      .reduce((dictionary, element, i) => ({ ...dictionary, [ids[i]]: element }), {});
+    return data;
+};

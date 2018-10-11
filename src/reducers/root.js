@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { type } from '../actions/dispatch';
+import colonies from './colonies';
 import structures from './structures';
 import systems from './systems';
 
@@ -22,6 +23,7 @@ const character = (state = {}, action) => {
 export default combineReducers({
   authToken,
   character,
-  systems,
+  colonies,
   structures,
+  systems,
 });
