@@ -20,8 +20,10 @@ const endpoints = {
   constellation: (id) => urls.api + `universe/constellations/${id}`,
   orders: (id) => urls.api + `markets/${id}/orders`,
   region: (id) => urls.api + `universe/regions/${id}`,
+  schematic: (id) => urls.api + `universe/schematics/${id}`,
   structure: (id) => urls.api + `universe/structures/${id}`,
-  system: (id) => urls.api + `universe/systems/${id}`
+  system: (id) => urls.api + `universe/systems/${id}`,
+  type: (id) => urls.api + `universe/types/${id}`
 };
 
 export {
