@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 
 import LoginButton from './auth/loginButton';
 import RedirectHandler from './auth/redirectHandler';
-import Colonies from './colonies';
-import Structures from './structures';
-import Systems from './systems';
+import PlanetaryInteraction from './planetaryInteraction/planetaryInteraction';
 
 function app({ character, token }) {
   return (
@@ -14,9 +12,7 @@ function app({ character, token }) {
       <Route path="/" component={LoginButton} />
       <p>token: {token}</p>
       <p>Character ID: {character.id}</p>
-      <Structures />
-      <Systems />
-      <Colonies />
+      <PlanetaryInteraction />
       <Route path="/authorization-redirect" component={RedirectHandler} />
     </div>
   );
