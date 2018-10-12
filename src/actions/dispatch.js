@@ -3,6 +3,7 @@ import axios from 'axios';
 export const type = {
   ADD_CONSTELLATION: 'add constellation',
   ADD_STRUCTURE: 'add structure',
+  ADD_TYPE: 'add type',
   AUTHORIZE: 'authorize',
   FAILED: 'failed',
   FETCHING: 'fetching',
@@ -13,6 +14,11 @@ export const type = {
   SET_STRUCTURES: 'set structures',
   SET_SYSTEMS: 'set systems',
 };
+
+export const addType = (details) => ({
+  type: type.ADD_TYPE,
+  payload: details
+});
 
 export const failed = (error) => ({
   type: type.FAILED,
@@ -73,16 +79,18 @@ export const setInput = (value) => ({
 // Utility functions
 //
 
-export const authHeaders = (token) => ({
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-});
+export const authHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 
-export const fetchData = async (ids, endpoint, options = {}) => {
-    const requests = ids.map(id => axios.get(endpoint(id), options));
-    const data = (await Promise.all(requests))
-      .map(response => response.data)
-      .reduce((dictionary, element, i) => ({ ...dictionary, [ids[i]]: element }), {});
-    return data;
+export const fetchData = (ids, endpoint, action, options = {}) => async (dispatch) => {
+  const { transform, headers } = options;
+  const requests = ids.map(id => axios.get(endpoint(id), { headers }));
+  let data = (await Promise.all(requests))
+    .map(response => response.data)
+    .reduce((dictionary, element, i) => ({ ...dictionary, [ids[i]]: element }), {});
+  if (transform) {
+    for (let key in data) {
+      data[key] = transform(data[key]);
+    }
+  }
+  dispatch(action(data));
 };
