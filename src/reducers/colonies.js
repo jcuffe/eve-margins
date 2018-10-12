@@ -1,6 +1,6 @@
 import { type } from '../actions/dispatch';
 
-export default function(state = {}, action) {
+export default (state = {}, action) => {
   const actions = {
     [type.SET_COLONIES]: action.payload,
   };
