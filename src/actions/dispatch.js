@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { endpoints } from '../urls';
 
 export const type = {
   ADD_CONSTELLATION: 'add constellation',
@@ -7,6 +8,8 @@ export const type = {
   AUTHORIZE: 'authorize',
   FAILED: 'failed',
   FETCHING: 'fetching',
+  FETCH_COLONY_IDS: 'fetch colony ids',
+  FETCH_COLONY_DETAILS: 'fetch colony details',
   LOGOUT: 'logout',
   SET_CHARACTER: 'set char',
   SET_COLONIES: 'set colonies',
@@ -23,12 +26,24 @@ export const addType = (details) => ({
 export const failed = (error) => ({
   type: type.FAILED,
   payload: error
-})
+});
 
 export const fetching = (resource) => ({
   type: type.FETCHING,
   payload: resource
-})
+});
+
+export const fetchColonyIds = (charId, token) => ({
+  type: type.FETCH_COLONY_IDS,
+  promise: axios.get(endpoints.colonies(charId), { headers: authHeaders(token) })
+    .then(response => response.data)
+});
+
+export const fetchColonyDetails = (charId, colonyId, token) => ({
+  type: type.FETCH_COLONY_DETAILS,
+  promise: axios.get(endpoints.colony(charId, colonyId), { headers: authHeaders(token) })
+    .then(response => ({ [colonyId]: response.data }))
+});
 
 export const setToken = (token) => ({
   type: type.AUTHORIZE,
