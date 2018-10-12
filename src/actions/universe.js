@@ -4,8 +4,7 @@ import { endpoints } from '../urls';
 export const fetchSystems = (ids) => async (dispatch) => {
     dispatch(fetching("systems"));
     try {
-      const systems = await fetchData(ids, endpoints.system);    
-      dispatch(setSystems(systems));
+      dispatch(fetchData(ids, endpoints.system, setSystems));    
   
       // Identify constellations for fetched systems
       const constellationIds = new Set();
@@ -19,8 +18,7 @@ export const fetchSystems = (ids) => async (dispatch) => {
 const fetchConstellations = (ids) => async (dispatch) => {
   dispatch(fetching("constellations"));
   try {
-    const constellations = await fetchData(ids, endpoints.constellation);
-    dispatch(setConstellations(constellations));
+    dispatch(fetchData(ids, endpoints.constellation, setConstellations));
   } catch (error) {
     dispatch(failed("constellations"));
   }
@@ -30,8 +28,7 @@ export const fetchStructures = (ids, token) => async (dispatch) => {
   dispatch(fetching("structures"));
   try {
     const options = authHeaders(token); // Authorization required
-    const structures = await fetchData(ids, endpoints.structure, options);
-    dispatch(setStructures(structures));
+    dispatch(fetchData(ids, endpoints.structure, setStructures, options));
   } catch (error) {
     dispatch(failed("structures"));
   }
