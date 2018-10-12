@@ -2,14 +2,14 @@ import { combineReducers } from 'redux';
 import { type } from '../actions/dispatch';
 import { structureIds } from '../seeds';
 
-function details(state = {}, action) {
+const details = (state = {}, action) => {
   const actions = {
     [type.SET_STRUCTURES]: action.payload,
   };
   return actions[action.type] || state;
 }
 
-function ids(state = structureIds, action) {
+const ids = (state = structureIds, action) => {
   const actions = {
     [type.ADD_STRUCTURE]: [action.payload, ...state]
   };

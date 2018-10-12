@@ -3,6 +3,7 @@ import { type } from '../actions/dispatch';
 import colonies from './colonies';
 import structures from './structures';
 import systems from './systems';
+import types from './types';
 
 const authToken = (state = "", action) => {
   const actions = {
@@ -26,4 +27,5 @@ export default combineReducers({
   colonies,
   structures,
   systems,
+  types
 });

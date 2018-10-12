@@ -1,8 +1,8 @@
 import { type } from '../actions/dispatch';
 
-export default (state = {}, action) => {
+export default (state = [], action) => {
   const actions = {
-    [type.SET_CONSTELLATIONS]: action.payload
+    [type.ADD_TYPE]: [...state, action.payload]
   };
   return actions[action.type] || state;
-};
+}
