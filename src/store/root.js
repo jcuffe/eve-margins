@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
-import colonies from '../reducers/colonies';
-import structures from '../reducers/structures';
-import systems from '../reducers/systems';
-import types from '../reducers/types';
-import characters from '../reducers/characters';
+import { combineEpics } from 'redux-observable';
+import colonies from '../modules/colonies';
+import structures from '../modules/structures';
+import systems from '../modules/systems';
+import types from '../modules/types';
+import characters from '../modules/characters';
 
-
-export default combineReducers({
+export const rootReducer = combineReducers({
   characters,
   colonies,
   structures,
   systems,
   types
 });
+
+export const rootEpic = combineEpics({});
