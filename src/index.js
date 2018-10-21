@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store/store';
+import configureStore from './store/store';
 import App from './components/app';
+
+const store = configureStore();
 
 const app = (
   <Provider store={store}>
@@ -11,6 +13,6 @@ const app = (
       <App />
     </Router>
   </Provider>
-)
+);
 
 ReactDOM.render(app, document.getElementById('root'));

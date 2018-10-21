@@ -4,7 +4,7 @@ import colonies from '../modules/colonies';
 import structures from '../modules/structures';
 import systems from '../modules/systems';
 import types from '../modules/types';
-import characters from '../modules/characters';
+import { characters, charactersEpic } from '../modules/characters';
 
 export const rootReducer = combineReducers({
   characters,
@@ -14,4 +14,6 @@ export const rootReducer = combineReducers({
   types
 });
 
-export const rootEpic = combineEpics({});
+export const rootEpic = combineEpics(
+  charactersEpic
+);

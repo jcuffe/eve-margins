@@ -1,8 +1,9 @@
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
 import { middleware as pack } from 'redux-pack';
 
-import rootReducer from './root';
+import { rootReducer, rootEpic } from './root';
 
 function persistState(store) {
   let currentState;
@@ -20,10 +21,13 @@ function persistState(store) {
   return unsubscribe;
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancers = composeEnhancers(applyMiddleware(thunk, pack));
-const state = JSON.parse(localStorage.getItem("state")) || {};
-const store = createStore(rootReducer, state, enhancers);
-persistState(store);
-
-export default store;
+export default () => {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const epicMiddleware = createEpicMiddleware();
+  const enhancers = composeEnhancers(applyMiddleware(epicMiddleware, thunk, pack));
+  const state = JSON.parse(localStorage.getItem("state")) || {};
+  const store = createStore(rootReducer, state, enhancers);
+  persistState(store);
+  epicMiddleware.run(rootEpic);
+  return store;
+};
