@@ -6,11 +6,17 @@ import MarketFilters from '../market/filters';
 import MarketTree from '../market/tree';
 import MarketResults from '../market/results';
 
-const Interface = ({ characters, token }) => (
+const Interface = ({ characters }) => (
   <div>
     <LoginButton />
-    <p>token: {token}</p>
-    <p>Character ID: {characters.id}</p>
+    <div>
+    {Object.values(characters).map((character, i) => (
+      <div key={i}>
+        <p>token: {character.token}</p>
+        <p>Character ID: {character.CharacterID}</p>
+      </div>
+    ))}
+    </div>
     <MarketLocations />
     <MarketFilters />
     <MarketTree />
@@ -19,7 +25,6 @@ const Interface = ({ characters, token }) => (
 );
 
 const stateToProps = (state) => ({
-  token: state.characters.authToken,
   characters: state.characters
 });
 
