@@ -1,5 +1,6 @@
-import { mergeMap, map, tap, catchError, flatMap } from 'rxjs/operators';
+import { switchMap, map, tap, catchError, flatMap } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
+import qs from 'qs';
 import { of } from 'rxjs';
 import { ofType, mapTo } from 'redux-observable';
 import { type, authHeaders, setCharacter } from '../actions/dispatch';
@@ -10,7 +11,7 @@ export const characters = (state = {}, action) => {
     case type.SET_CHARACTER:
       return { 
         ...state, 
-        [action.character.CharacterID]: action.character 
+        ...action.character 
       };
     default:
       return state;
@@ -20,12 +21,21 @@ export const characters = (state = {}, action) => {
 //
 // Verifies SSO tokens and stores character data in state
 //
+// TODO - find a method that avoids sending access token in query string
+//        this method is vulnerable to packet sniffing, but attacker will
+//        only have access to granted scopes until token expires
+//
 
 export const charactersEpic = (action$) => action$.pipe(
   ofType(type.VERIFY_TOKEN),
-  mergeMap(({ token }) => 
-    ajax({ url: urls.tokenVerification, headers: authHeaders(token) })
-      .pipe(map(res => ({ ...res.response, token })))
-  ),
+  switchMap(({ token }) => {
+    const query = qs.stringify({ token });
+    const url = [urls.tokenVerification, query].join("?");
+    return ajax(url).pipe(
+      tap(console.log),
+      map(data => data.response),
+      map(character => ({ [character.CharacterID]: { ...character, token } })), 
+    )
+  }),
   map(setCharacter)
 );
