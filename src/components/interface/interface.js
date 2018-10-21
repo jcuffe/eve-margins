@@ -12,8 +12,9 @@ const Interface = ({ characters }) => (
     <div>
     {Object.values(characters).map((character, i) => (
       <div key={i}>
-        <p>token: {character.token}</p>
+        <p>Character Name: <strong>{character.CharacterName}</strong></p>
         <p>Character ID: {character.CharacterID}</p>
+        <p>token: {character.token}</p>
       </div>
     ))}
     </div>
