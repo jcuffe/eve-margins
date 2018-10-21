@@ -22,7 +22,7 @@ function persistState(store) {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancers = composeEnhancers(applyMiddleware(thunk, pack));
-const state = JSON.parse(localStorage.getItem("state"));
+const state = JSON.parse(localStorage.getItem("state")) || {};
 const store = createStore(rootReducer, state, enhancers);
 persistState(store);
 
