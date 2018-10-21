@@ -6,11 +6,11 @@ import MarketFilters from '../market/filters';
 import MarketTree from '../market/tree';
 import MarketResults from '../market/results';
 
-const Interface = ({ character, token }) => (
+const Interface = ({ characters, token }) => (
   <div>
     <LoginButton />
     <p>token: {token}</p>
-    <p>Character ID: {character.id}</p>
+    <p>Character ID: {characters.id}</p>
     <MarketLocations />
     <MarketFilters />
     <MarketTree />
@@ -19,8 +19,8 @@ const Interface = ({ character, token }) => (
 );
 
 const stateToProps = (state) => ({
-  token: state.authToken,
-  character: state.character
+  token: state.characters.authToken,
+  characters: state.characters
 });
 
 export default connect(stateToProps)(Interface);

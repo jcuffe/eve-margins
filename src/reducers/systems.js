@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { type } from '../actions/dispatch';
-import { systemIds } from '../seeds';
+import { systemIds } from '../store/seeds';
 
 function details(state = {}, action) {
   const actions = {

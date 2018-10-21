@@ -2,7 +2,7 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
 import { middleware as pack } from 'redux-pack';
 
-import rootReducer from './reducers/root';
+import rootReducer from './root';
 
 function persistState(store) {
   let currentState;
