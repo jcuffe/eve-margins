@@ -16,6 +16,7 @@ export const type = {
   SET_CONSTELLATIONS: 'set constellations',
   SET_STRUCTURES: 'set structures',
   SET_SYSTEMS: 'set systems',
+  VERIFY_TOKEN: 'verify token'
 };
 
 export const addType = (details) => ({
@@ -45,14 +46,9 @@ export const fetchColonyDetails = (charId, colonyId, token) => ({
     .then(response => ({ [colonyId]: response.data }))
 });
 
-export const setToken = (token) => ({
-  type: type.AUTHORIZE,
-  payload: token
-});
-
-export const setCharacter = (data) => ({
+export const setCharacter = (character) => ({
   type: type.SET_CHARACTER,
-  payload: data
+  character
 });
 
 export const setSystems = (systems) => ({
@@ -88,6 +84,11 @@ export const setPrice = (itemId, price) => ({
 export const setInput = (value) => ({
   type: type.SET_INPUT,
   payload: value
+});
+
+export const verifyToken = (token) => ({
+  type: type.VERIFY_TOKEN,
+  token
 });
 
 //
