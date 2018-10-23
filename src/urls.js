@@ -4,8 +4,7 @@ const images = {
 
 const urls = {
   tokenVerification: "https://esi.tech.ccp.is/verify/",
-  oauthRedirect: "https://clever-yalow-6624a7.netlify.com/authorization-redirect",
-  // oauthRedirect: "http://localhost:3000/authorization-redirect/",
+  oauthRedirect: process.env.REACT_APP_OAUTH_REDIRECT,
   authorization: "https://login.eveonline.com/oauth/authorize/",
   api: "https://esi.evetech.net/latest/"
 };
