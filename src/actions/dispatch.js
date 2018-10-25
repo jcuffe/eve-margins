@@ -4,24 +4,52 @@ import { endpoints } from '../urls';
 export const type = {
   ADD_CONSTELLATION: 'add constellation',
   ADD_STRUCTURE: 'add structure',
-  ADD_TYPE: 'add type',
   AUTHORIZE: 'authorize',
   FAILED: 'failed',
   FETCHING: 'fetching',
   FETCH_COLONY_IDS: 'fetch colony ids',
   FETCH_COLONY_DETAILS: 'fetch colony details',
+  GET_ACTIVE_TYPES: 'get active types',
+  GET_ORDER: 'get order',
+  GET_ORDERS: 'get orders',
   LOGOUT: 'logout',
+  SET_ACTIVE_TYPES: 'set active types',
   SET_CHARACTER: 'set char',
   SET_COLONIES: 'set colonies',
   SET_CONSTELLATIONS: 'set constellations',
+  SET_ORDERS: 'set orders',
   SET_STRUCTURES: 'set structures',
   SET_SYSTEMS: 'set systems',
+  SET_TYPE: 'set type',
   VERIFY_TOKEN: 'verify token'
 };
 
-export const addType = (details) => ({
+export const getActiveTypes = () => ({
+  type: type.GET_ACTIVE_TYPES
+});
+
+export const getOrder = (typeID) => ({
+  type: type.GET_ORDER,
+  typeID
+});
+
+export const getOrders = () => ({
+  type: type.GET_ORDERS
+});
+
+export const setType = (payload) => ({
   type: type.ADD_TYPE,
-  payload: details
+  payload
+});
+
+export const setActiveTypes = (types) => ({
+  type: type.SET_ACTIVE_TYPES,
+  types
+});
+
+export const setOrders = (orders) => ({
+  type: type.SET_ORDERS,
+  orders
 });
 
 export const failed = (error) => ({
