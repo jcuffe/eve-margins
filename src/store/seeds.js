@@ -14,6 +14,19 @@ export const stationIds = [
 export const itemIds = [
   // Fuel Blocks
   4246, // Hydrogen  
+
+  // Complex Outputs
+  16671, // Titanium Carbide
+
+  // Intermediate Outputs
+  16654, // Titanium Chromide
+  16658, // Silicon Diborite
+
+  // Raw Inputs
+  16638, // Titanium
+  16641, // Chromium
+  16635, // Evaporite Deposits
+  16636, // Silicates
 ]; 
 
 export const planetResources = {
