@@ -1,9 +1,8 @@
-import { switchMap, map, tap, catchError, flatMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import qs from 'qs';
-import { of } from 'rxjs';
-import { ofType, mapTo } from 'redux-observable';
-import { type, authHeaders, setCharacter } from '../actions/dispatch';
+import { ofType } from 'redux-observable';
+import { type, setCharacter } from '../actions/dispatch';
 import { urls } from '../urls';
 
 export const characters = (state = {}, action) => {
