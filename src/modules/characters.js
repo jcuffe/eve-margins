@@ -12,6 +12,10 @@ export const characters = (state = {}, action) => {
         ...state, 
         ...action.character 
       };
+    case type.SELECT_CHARACTER:
+      const next = { ...state };
+      Object.keys(next).forEach((id) => next[id].selected = (id == action.id));
+      return next;
     default:
       return state;
   }

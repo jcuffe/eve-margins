@@ -13,6 +13,7 @@ export const type = {
   GET_ORDER: 'get order',
   GET_ORDERS: 'get orders',
   LOGOUT: 'logout',
+  SELECT_CHARACTER: 'select character',
   SET_ACTIVE_TYPES: 'set active types',
   SET_CHARACTER: 'set char',
   SET_COLONIES: 'set colonies',
@@ -47,8 +48,9 @@ export const setActiveTypes = (types) => ({
   types
 });
 
-export const setOrders = (orders) => ({
+export const setOrders = (orders, typeID) => ({
   type: type.SET_ORDERS,
+  typeID,
   orders
 });
 
@@ -72,6 +74,11 @@ export const fetchColonyDetails = (charId, colonyId, token) => ({
   type: type.FETCH_COLONY_DETAILS,
   promise: axios.get(endpoints.colony(charId, colonyId), { headers: authHeaders(token) })
     .then(response => ({ [colonyId]: response.data }))
+});
+
+export const selectCharacter = (id) => ({
+  type: type.SELECT_CHARACTER,
+  id
 });
 
 export const setCharacter = (character) => ({

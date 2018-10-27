@@ -5,19 +5,14 @@ import MarketLocations from '../market/locations';
 import MarketFilters from '../market/filters';
 import MarketTree from '../market/tree';
 import MarketResults from '../market/results';
+import Characters from './characters';
 
-const Interface = ({ characters }) => (
+import { selectCharacter } from '../../actions/dispatch';
+
+const Interface = ({ characters, selectCharacter }) => (
   <div>
     <LoginButton />
-    <div>
-    {Object.values(characters).map((character, i) => (
-      <div key={i}>
-        <p>Character Name: <strong>{character.CharacterName}</strong></p>
-        <p>Character ID: {character.CharacterID}</p>
-        <p>token: {character.token}</p>
-      </div>
-    ))}
-    </div>
+    <Characters />
     <MarketLocations />
     <MarketFilters />
     <MarketTree />
@@ -29,4 +24,6 @@ const stateToProps = (state) => ({
   characters: state.characters
 });
 
-export default connect(stateToProps)(Interface);
+const dispatchToProps = { selectCharacter };
+
+export default connect(stateToProps, dispatchToProps)(Interface);
