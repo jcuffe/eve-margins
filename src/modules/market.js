@@ -3,11 +3,10 @@ import { combineEpics } from 'redux-observable';
 import { switchMap, flatMap, concatMap, map, mapTo, tap, delay } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { ofType } from 'redux-observable';
-import { type, setActiveTypes, getOrders, getOrder, setOrders, authHeaders } from '../actions/dispatch';
+import { type, setActiveTypes, getOrders, setOrders } from '../actions/dispatch';
 import { urls, endpoints } from '../urls';
 import { itemIds } from '../store/seeds';
 import { of, from } from 'rxjs';
-import axios from 'axios';
 
 const ids = (state = itemIds, action) => {
   switch (action.type) {
@@ -18,10 +17,13 @@ const ids = (state = itemIds, action) => {
   } 
 }
 
-const orders = (state = [], action) => {
+const orders = (state = {}, action) => {
   switch (action.type) {
     case type.SET_ORDERS:
-      return [ ...new Set([...state, ...action.orders])];
+      return {
+        ...state,
+        [action.typeID]: action.orders
+      };
     default:
       return state;
   }
@@ -56,10 +58,10 @@ const ordersEpic = (action$, state$) => action$.pipe(
 
   // Replace the id with the http response for orders of that id
   switchMap(id => ajax(endpoints.orders(10000002, id)) 
-    .pipe(map(({ response }) => response))),
+    .pipe(map(({ response }) => ({ orders: response, id })))),
   
   // Send the orders to state storage
-  map(setOrders)
+  map(({ orders, id }) => setOrders(orders, id))
 );
 
 export const marketEpic = combineEpics(idEpic, ordersEpic);
