@@ -7,7 +7,7 @@ const urls = {
   oauthRedirect: process.env.REACT_APP_OAUTH_REDIRECT,
   authorization: "https://login.eveonline.com/oauth/authorize/",
   ESI: "https://esi.evetech.net/latest/",
-  SDE: "http://localhost:5000/"
+  SDE: "https://esi-transform.herokuapp.com/"
 };
 
 const ESI = {
