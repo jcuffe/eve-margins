@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default () => (<div></div>);
+export default () => (<div className="filters"><h2>Filters</h2></div>);
