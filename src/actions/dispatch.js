@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { endpoints } from '../urls';
+import { ESI } from '../urls';
 
 export const type = {
   ADD_CONSTELLATION: 'add constellation',
@@ -12,8 +12,10 @@ export const type = {
   GET_ACTIVE_TYPES: 'get active types',
   GET_ORDER: 'get order',
   GET_ORDERS: 'get orders',
+  GET_TYPES: 'get types',
   LOGOUT: 'logout',
   SELECT_CHARACTER: 'select character',
+  SELECT_TYPE: 'select type',
   SET_ACTIVE_TYPES: 'set active types',
   SET_CHARACTER: 'set char',
   SET_COLONIES: 'set colonies',
@@ -21,7 +23,7 @@ export const type = {
   SET_ORDERS: 'set orders',
   SET_STRUCTURES: 'set structures',
   SET_SYSTEMS: 'set systems',
-  SET_TYPE: 'set type',
+  SET_TYPES: 'set types',
   VERIFY_TOKEN: 'verify token'
 };
 
@@ -36,6 +38,10 @@ export const getOrder = (typeID) => ({
 
 export const getOrders = () => ({
   type: type.GET_ORDERS
+});
+
+export const getTypes = () => ({
+  type: type.GET_TYPES
 });
 
 export const setType = (payload) => ({
@@ -66,19 +72,24 @@ export const fetching = (resource) => ({
 
 export const fetchColonyIds = (charId, token) => ({
   type: type.FETCH_COLONY_IDS,
-  promise: axios.get(endpoints.colonies(charId), { headers: authHeaders(token) })
+  promise: axios.get(ESI.colonies(charId), { headers: authHeaders(token) })
     .then(response => response.data)
 });
 
 export const fetchColonyDetails = (charId, colonyId, token) => ({
   type: type.FETCH_COLONY_DETAILS,
-  promise: axios.get(endpoints.colony(charId, colonyId), { headers: authHeaders(token) })
+  promise: axios.get(ESI.colony(charId, colonyId), { headers: authHeaders(token) })
     .then(response => ({ [colonyId]: response.data }))
 });
 
 export const selectCharacter = (id) => ({
   type: type.SELECT_CHARACTER,
   id
+});
+
+export const selectType = (typeID) => ({
+  type: type.SELECT_TYPE,
+  typeID
 });
 
 export const setCharacter = (character) => ({
@@ -119,6 +130,11 @@ export const setPrice = (itemId, price) => ({
 export const setInput = (value) => ({
   type: type.SET_INPUT,
   payload: value
+});
+
+export const setTypes = (types) => ({
+  type: type.SET_TYPES,
+  types
 });
 
 export const verifyToken = (token) => ({
