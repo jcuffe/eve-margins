@@ -7,3 +7,31 @@ th, td {
 .character.character-active {
   background-color: cornflowerblue;
 }
+
+.characters {
+  grid-area: characters;
+  height: 300px;
+}
+
+.filters {
+  grid-area: filters;
+}
+
+.locations {
+  grid-area: locations;
+}
+
+.market-results {
+  grid-area: results;
+}
+
+.types-tree {
+  grid-area: tree;
+}
+
+.interface {
+  display: grid;
+  grid-template:
+    "characters locations filters"
+    "tree results results"
+}
