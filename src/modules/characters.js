@@ -35,8 +35,7 @@ export const charactersEpic = (action$) => action$.pipe(
     const query = qs.stringify({ token });
     const url = [urls.tokenVerification, query].join("?");
     return ajax(url).pipe(
-      tap(console.log),
-      map(data => data.response),
+      map(({ response }) => response),
       map(character => ({ [character.CharacterID]: { ...character, token } })), 
     )
   }),
