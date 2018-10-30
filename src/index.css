@@ -8,6 +8,10 @@ th, td {
   background-color: cornflowerblue;
 }
 
+.selected {
+  background-color: cornflowerblue
+}
+
 .characters {
   grid-area: characters;
   height: 300px;
@@ -27,11 +31,13 @@ th, td {
 
 .types-tree {
   grid-area: tree;
+  display: flex;
+  flex-direction: column;
 }
 
 .interface {
   display: grid;
   grid-template:
-    "characters locations filters"
-    "tree results results"
+    "characters locations filters" 200px 
+    "tree results results" 500px
 }
