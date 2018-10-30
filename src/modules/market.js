@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
-import { switchMap, flatMap, concatMap, map, mapTo, tap, delay } from 'rxjs/operators';
+import { mergeMap, flatMap, concatMap, map, mapTo, tap, delay } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { ofType } from 'redux-observable';
 import { type, setActiveTypes, getOrders, setOrders } from '../actions/dispatch';
@@ -20,10 +20,7 @@ const ids = (state = itemIds, action) => {
 const orders = (state = {}, action) => {
   switch (action.type) {
     case type.SET_ORDERS:
-      return {
-        ...state,
-        [action.typeID]: action.orders
-      };
+      return action.orders;
     default:
       return state;
   }
@@ -34,7 +31,7 @@ export const market = combineReducers({ ids, orders });
 const idEpic = (action$) => action$.pipe(
   ofType(type.GET_ACTIVE_TYPES),
   tap(action => console.log(`id Epic triggered: ${action.type}`)),
-  switchMap(() => 
+  mergeMap(() => 
     ajax(ESI.activeTypes(10000002)).pipe(
       tap(console.log),
       map(({ response }) => response)
@@ -43,14 +40,24 @@ const idEpic = (action$) => action$.pipe(
   flatMap((data) => [setActiveTypes(data), getOrders()])
 );
 
+// const ordersEpic = (action$, state$) => action$.pipe(
+//   ofType(type.GET_ORDERS), 
+//   mapTo(state$.value.market.ids), 
+//   flatMap(from), 
+//   concatMap(id => of(id).pipe(delay(250))), // Add events back to the stream with a delay
+//   switchMap(id => ajax(ESI.orders(10000002, id)) // Hardcoded regionID
+//     .pipe(map(({ response }) => ({ orders: response, id })))),
+//   map(({ orders, id }) => setOrders(orders, id))
+// );
+
 const ordersEpic = (action$, state$) => action$.pipe(
-  ofType(type.GET_ORDERS), 
-  mapTo(state$.value.market.ids), 
-  flatMap(from), 
-  concatMap(id => of(id).pipe(delay(250))), // Add events back to the stream with a delay
-  switchMap(id => ajax(ESI.orders(10000002, id)) // Hardcoded regionID
-    .pipe(map(({ response }) => ({ orders: response, id })))),
-  map(({ orders, id }) => setOrders(orders, id))
+  ofType(type.SELECT_TYPE),
+  mergeMap(({ typeID }) => 
+    ajax(ESI.orders(10000002, typeID)).pipe(
+      map(({ response }) => response)
+    )
+  ),
+  map(setOrders)
 );
 
 export const marketEpic = combineEpics(idEpic, ordersEpic);

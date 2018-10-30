@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Column, AutoSizer } from 'react-virtualized';
 import { connect } from 'react-redux';
-import { getActiveTypes } from '../../actions/dispatch';
 
 const Results = ({ getActiveTypes, orders, types }) => {
   const rowGetter = ({ index }) => orders[index];
@@ -9,19 +8,18 @@ const Results = ({ getActiveTypes, orders, types }) => {
   const typeNameRenderer = ({ cellData }) => types[cellData] ? types[cellData].typeName : "???";
   return (
     <div className="market-results">
-      <button onClick={getActiveTypes}>Get Active Types in The Forge</button>
-      <AutoSizer disableHeight>
-        {({width}) => (
+      <AutoSizer>
+        {({ height, width }) => (
           <Table
             ref="Table"
             headerHeight={50}
-            height={800}
+            height={height}
+            width={width}
             noRowsRenderer={() => <div></div>}
-            overscanRowCount={10}
+            overscanRowCount={0}
             rowHeight={40}
             rowGetter={rowGetter}
-            rowCount={orders.length}
-            width={width}>
+            rowCount={orders.length}>
             <Column
               label="Type Name"
               dataKey="type_id"
@@ -49,9 +47,8 @@ const Results = ({ getActiveTypes, orders, types }) => {
 
 const stateToProps = (state) => ({
   orders: [].concat(...Object.values(state.market.orders)),
-  types: state.types
+  types: state.types.all
 });
 
-const dispatchToProps = { getActiveTypes };
 
-export default connect(stateToProps, dispatchToProps)(Results);
+export default connect(stateToProps)(Results);
