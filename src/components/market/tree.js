@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { List, AutoSizer } from 'react-virtualized';
 import { connect } from 'react-redux';
 import { getTypes, selectType } from '../../actions/dispatch';
@@ -15,14 +16,20 @@ const Type = ({ type, selectType, key, style }) => {
 
 
 const Tree = ({ types, getTypes, selectType }) => {
-  const rowRenderer = ({ key, index, style }) => (
-    <Type {...{ type: types[index], key, style, selectType }} />
-  );
+  const [filter, setFilter] = useState("");
+  const filteredTypes = types.filter(type => type.typeName.toLowerCase().includes(filter));
+  const handleChange = (e) => setFilter(e.target.value.toLowerCase());
+  const rowRenderer = ({ key, index, style }) => {
+    const type = filteredTypes[index];
+    if (!type) return null;
+    return <Type {...{ type, key, style, selectType }} />;
+  };
   if (types.length === 0) {
     getTypes();
   }
   return (
     <div className="type-tree">
+      <input value={filter} onChange={handleChange} />
       <AutoSizer disableHeight>
         {({width}) => (
           <List
